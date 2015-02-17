@@ -1,9 +1,10 @@
+jdbc {
+  url = "jdbc:postgresql://localhost:5432/politach"
+  username = "postgres"
+  password = ""
+  connectionPool = "HikariCP"
+  keepAliveConnection = true
+}
+
 politach {
-  sql {
-    url = "jdbc:postgresql://localhost:5432/politach"
-    username = "postgres"
-    password = ""
-    connectionPool = "HikariCP"
-    keepAliveConnection = true
-  }
 }

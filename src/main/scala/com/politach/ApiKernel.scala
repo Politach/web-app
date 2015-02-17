@@ -10,18 +10,15 @@ import scala.slick.driver.PostgresDriver.api._
 class ApiKernel extends Bootable with FlywayInit {
   val config = ConfigFactory.load()
   val serverConfig = config.getConfig("politach")
-  val sqlConfig = serverConfig.getConfig("sql")
-
-  val flyway = initFlyway(sqlConfig)
-  flyway.migrate()
 
   implicit val system = ActorSystem("politach", serverConfig)
   implicit val executor = system.dispatcher
   implicit val materializer = ActorFlowMaterializer()
-  implicit val db = Database.forConfig("sql", serverConfig)
 
   def startup() = {
-    println("hi")
+    val flyway = initFlyway(config.getConfig("jdbc"))
+    flyway.migrate()
+    Db.check()
   }
 
   def shutdown() = {

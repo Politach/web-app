@@ -22,6 +22,7 @@ object Dependencies {
 
     val postgresJdbc    = "org.postgresql"                %  "postgresql"                    % "9.4-1200-jdbc41" exclude("org.slf4j", "slf4j-simple")
     val slick           = "com.typesafe.slick"            %% "slick"                         % V.slick
+    val slickJoda       = "com.github.tototoshi"          %% "slick-joda-mapper"             % "1.2.0"
     val flywayCore      = "org.flywaydb"                  %  "flyway-core"                   % "3.1"
     val hikariCP        = "com.zaxxer"                    %  "HikariCP"                      % "2.3.2"
 
@@ -47,7 +48,7 @@ object Dependencies {
   val root = Seq(
     akkaSlf4j, akkaActor, akkaKernel, akkaStream, scalazCore, scalazConcurrent,
     sprayJson, json4s,
-    postgresJdbc, slick, flywayCore, hikariCP,
+    postgresJdbc, slick, slickJoda, flywayCore, hikariCP,
     logbackClassic, scalaLogging, jodaTime, jodaConvert,
     akkaTestkit, scalacheck, specs2, slickTestkit
   )
