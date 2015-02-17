@@ -19,6 +19,8 @@ class ApiKernel extends Bootable with FlywayInit {
     val flyway = initFlyway(config.getConfig("jdbc"))
     flyway.migrate()
     Db.check()
+
+    HttpApi.start(serverConfig)
   }
 
   def shutdown() = {

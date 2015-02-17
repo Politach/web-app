@@ -1,0 +1,57 @@
+CREATE EXTENSION "uuid-ossp";
+
+CREATE TABLE Board (
+  id SERIAL PRIMARY KEY NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  url VARCHAR(20) NOT NULL
+);
+INSERT INTO Board (id, title, url) VALUES (0, 'politach', 'pol');
+
+CREATE TABLE Message (
+  id INTEGER PRIMARY KEY NOT NULL,
+  postId INTEGER NOT NULL,
+  boardId INTEGER NOT NULL,
+  userUUID UUID NOT NULL,
+  userPseudonym VARCHAR(55) NOT NULL,
+  userName VARCHAR(50),
+  isSage BOOLEAN NOT NULL,
+  isOP BOOLEAN NOT NULL,
+  isPost BOOLEAN NOT NULL,
+  title VARCHAR(80),
+  text VARCHAR(5000),
+  media JSON NOT NULL,
+  createdAt TIMESTAMP NOT NULL,
+  country VARCHAR(35),
+  flag VARCHAR(2),
+  icon VARCHAR(15)
+);
+
+CREATE TABLE Post (
+  bumpLimit INTEGER NOT NULL,
+  isAttached BOOLEAN NOT NULL
+)
+INHERITS (Message);
+
+CREATE TABLE UserPseudonym (
+  postId INTEGER NOT NULL,
+  userUUID UUID NOT NULL,
+  name VARCHAR(55) NOT NULL
+);
+
+CREATE TABLE Media (
+  id SERIAL PRIMARY KEY NOT NULL,
+  boardId INTEGER NOT NULL,
+  messageId INTEGER NOT NULL,
+  userUUID UUID NOT NULL,
+  kind SMALLINT NULL,
+  width SMALLINT NOT NULL,
+  height SMALLINT NOT NULL,
+  size SMALLINT NOT NULL,
+  duration SMALLINT NOT NULL
+);
+
+CREATE TABLE UserIP (
+  ip SMALLINT NOT NULL,
+  userUUID UUID NOT NULL,
+  createdAt TIMESTAMP NOT NULL
+);

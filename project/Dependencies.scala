@@ -46,7 +46,8 @@ object Dependencies {
   import Compile._, Test._
 
   val root = Seq(
-    akkaSlf4j, akkaActor, akkaKernel, akkaStream, scalazCore, scalazConcurrent,
+    akkaSlf4j, akkaActor, akkaKernel, akkaHttp, akkaHttpCore, akkaHttpSpray, akkaStream,
+    scalazCore, scalazConcurrent,
     sprayJson, json4s,
     postgresJdbc, slick, slickJoda, flywayCore, hikariCP,
     logbackClassic, scalaLogging, jodaTime, jodaConvert,
