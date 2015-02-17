@@ -3,6 +3,7 @@ import sbt.Keys._
 import akka.sbt.AkkaKernelPlugin
 import akka.sbt.AkkaKernelPlugin.{ Dist, outputDirectory, distJvmOptions, distBootClass }
 import spray.revolver.RevolverPlugin._
+import org.flywaydb.sbt.FlywayPlugin._
 
 object Build extends sbt.Build {
   val Organization = "Politach"
@@ -23,11 +24,6 @@ object Build extends sbt.Build {
   lazy val defaultSettings =
     buildSettings ++
       Seq(
-        initialize ~= { _ =>
-          sys.props("scalac.patmat.analysisBudget") = "off"
-          if (sys.props("java.specification.version") != "1.8")
-            sys.error("Java 8 is required for this project.")
-        },
         resolvers                 ++= Resolvers.seq,
         scalacOptions             ++= Seq("-encoding", "UTF-8", "-deprecation", "-unchecked", "-feature", "-language:higherKinds"),
         javaOptions               ++= Seq("-Dfile.encoding=UTF-8"),
@@ -43,6 +39,7 @@ object Build extends sbt.Build {
       defaultSettings               ++
       AkkaKernelPlugin.distSettings ++
       Revolver.settings             ++
+      flywaySettings                ++
       Seq(
         libraryDependencies                       ++= Dependencies.root,
         distJvmOptions       in Dist              :=  "-server -Xms256M -Xmx1024M",
@@ -51,7 +48,9 @@ object Build extends sbt.Build {
         Revolver.reStartArgs                      :=  Seq("com.politach.Main"),
         mainClass            in Revolver.reStart  :=  Some("com.politach.Main"),
         autoCompilerPlugins                       :=  true,
-        scalacOptions        in (Compile,doc)     :=  Seq("-groups", "-implicits", "-diagrams")
+        scalacOptions        in (Compile,doc)     :=  Seq("-groups", "-implicits", "-diagrams"),
+        flywaySchemas := Seq("public"),
+        flywayLocations := Seq("sql/migration")
       )
   ).settings(net.virtualvoid.sbt.graph.Plugin.graphSettings: _*)
 }
